@@ -45,6 +45,7 @@ void Menu()
 	cout << "|   江小白(P)          25 元 |\n";
 	cout << "|                            |\n";
 	cout << "|请输入菜品后对应的字母      |\n";
+	cout << "|菜品间输入空格，最后回车结束|\n";
 	cout << "------------------------------\n";
 
 }
@@ -105,14 +106,16 @@ int Amount(char food, char quantity)
 }
 
 //出示小票
-int Receipt(char tempfood[][100], int j, int* ordernumber, int* tablenumber)
+int Receipt(char tempfood[][16], int j, int* ordernumber, int* tablenumber)
 {
 	int sumamount = 0;
 	cout << "------------------------------------------------\n";
 	cout << "|                   小票                       |\n";
+	
 	cout << "| 订单号：                    ";
 	DispalyOrderNumber(&*ordernumber);
 	cout << "     |\n";
+
 	cout << "| 餐桌号：                            ";
 	printf("%04d", *tablenumber);
 	(*tablenumber)++;
@@ -121,6 +124,7 @@ int Receipt(char tempfood[][100], int j, int* ordernumber, int* tablenumber)
 		*tablenumber = 1;
 	}
 	cout << "     |\n";
+
 	cout << "|                                              |\n";
 	cout << "| 菜名                数量（份）  金额（元）   |\n";
 	for (int i = 0; i < j; i++)
@@ -172,14 +176,25 @@ void Pay(int money)
 	}
 }
 
+//记录菜品数量(For Boss)
+void NumberOfRecords(char chfood, int* foodnumber)
+{
+	(foodnumber[chfood - 'A'])++;
+}
+
 int main()
 {
 	int people1 = 1, people2;
 	int i, j;		//i 记录每次顾客点菜的数量,j 记录菜品的数量
-	char food[100];
-	char tempfood[2][100];		//顾客点菜时的零时数组，记录菜品以及数量，a[1][x] 为每个菜品的数量
+	int foodnumber[16];	//顾客点菜的菜品总数
+	for (int n = 0; n < 16; n++)
+	{
+		foodnumber[n] = 0;
+	}
+	char tempfood[2][16];		//顾客点菜时的零时数组，记录菜品以及数量，a[1][x] 为每个菜品的数量
 	int ordernumber = 1, tablenumber = 1;		//定义订单号和餐桌号
 	int totalconsumption = 0;
+
 	while (1)
 	{
 		cout << "请问您是？\n顾客点餐请输入 1，工作人员请输入 2，退出请输入 0。\n";
@@ -189,7 +204,7 @@ int main()
 			//重置各项数据
 			i = 0;
 			j = 0;
-			for (int n = 0; n < 100; n++)
+			for (int n = 0; n < 16; n++)
 			{
 				tempfood[1][n] = '0';
 			}
@@ -208,8 +223,10 @@ int main()
 					chfood = toupper(chfood);		//小写字母转换为大写字母
 					ch = getchar();
 
-					if ((chfood >= 'a' && chfood <= 'p') || chfood >= 'A' && chfood <= 'P')		//防止误输入其他数组
+					if (chfood >= 'A' && chfood <= 'P')		//防止误输入其他数组
 					{
+						NumberOfRecords(chfood, foodnumber);
+
 						//第一道菜直接录入数组
 						if (i == 0)
 						{
