@@ -6,10 +6,7 @@
 using namespace std;
 
 //定义菜单以及价格
-string A = "雪花牛扒(A)      ", B = "西冷(B)          ", C = "海菇双拼(C)      ", D = "泡菜披萨(D)      "
-, E = "海风鲜果披萨(E)  ", F = "俄式罗宋汤(F)    ", G = "新虾仁法式鲜汤(G)", H = "黑椒牛柳炒意面(H)"
-, I = "韩式海鲜烩意面(I)", J = "王老吉(J)        ", K = "果粒橙(K)        ", L = "大椰汁(L)        "
-, M = "大可乐(M)        ", N = "劲酒(N)          ", O = "青岛啤酒(O)      ", P = "江小白(P)       ";
+string FoodName[16] = { "雪花牛扒(A)      " ,"西冷(B)          ","海菇双拼(C)      " ,"泡菜披萨(D)      " ,"海风鲜果披萨(E)  " ,"俄式罗宋汤(F)    " ,"新虾仁法式鲜汤(G)" ,"黑椒牛柳炒意面(H)","韩式海鲜烩意面(I)","王老吉(J)        " ,"果粒橙(K)        ","大椰汁(L)        " ,"大可乐(M)        " ,"劲酒(N)          ","青岛啤酒(O)      ", "江小白(P)        " };
 char Name[16] = { 'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P' };
 int Price[16] = { 128,128,98,89,58,40,52,57,48,8,15,20,24,48,12,25 };
 
@@ -63,35 +60,6 @@ void DispalyOrderNumber(int* ordernumber)
 	(*ordernumber)++;
 }
 
-//显示小票上的菜品
-void DisplayFood(char food)
-{
-	int i;
-	i = 1 * (food == 'A') + 2 * (food == 'B') + 3 * (food == 'C') + 4 * (food == 'D')
-		+ 5 * (food == 'E') + 6 * (food == 'F') + 7 * (food == 'G') + 8 * (food == 'H')
-		+ 9 * (food == 'I') + 10 * (food == 'J') + 11 * (food == 'K') + 12 * (food == 'L')
-		+ 13 * (food == 'M') + 14 * (food == 'N') + 15 * (food == 'O') + 16 * (food == 'P');
-	switch (i)
-	{
-	case 1:cout << A; break;
-	case 2:cout << B; break;
-	case 3:cout << C; break;
-	case 4:cout << D; break;
-	case 5:cout << E; break;
-	case 6:cout << F; break;
-	case 7:cout << G; break;
-	case 8:cout << H; break;
-	case 9:cout << I; break;
-	case 10:cout << J; break;
-	case 11:cout << K; break;
-	case 12:cout << L; break;
-	case 13:cout << M; break;
-	case 14:cout << N; break;
-	case 15:cout << O; break;
-	case 16:cout << P; break;
-	}
-}
-
 //显示小票上每道菜的金额
 int Amount(char food, char quantity)
 {
@@ -130,7 +98,7 @@ int Receipt(char tempfood[][16], int j, int* ordernumber, int* tablenumber)
 	for (int i = 0; i < j; i++)
 	{
 		cout << "|    ";
-		DisplayFood(tempfood[0][i]);
+		cout << FoodName[tempfood[0][i] - 'A'];
 		cout << "       ";
 		cout << tempfood[1][i];
 		cout << "        ";
@@ -180,6 +148,27 @@ void Pay(int money)
 void NumberOfRecords(char chfood, int* foodnumber)
 {
 	(foodnumber[chfood - 'A'])++;
+}
+
+//今日菜品信息
+void Information(int* foodnumber)
+{
+	int sumamount = 0;
+	cout << "------------------------------------------------\n";
+	cout << "|                 今日菜品信息                 |\n";
+	cout << "|                                              |\n";
+	cout << "| 菜名                数量（份）  金额（元）   |\n";
+	for (int n = 0; n < 16; n++)
+	{
+		cout << "|    ";
+		cout << FoodName[n] << "      " << setw(2) << foodnumber[n] << "        "<<setw(4)<<foodnumber[n]*Price[n]<<"     |\n";
+		sumamount += foodnumber[n] * Price[n];
+	}
+	cout << "|                                              |\n";
+	cout << "| 总额                                ";
+	cout << setw(4) << sumamount;
+	cout << "     |" << endl;
+	cout << "------------------------------------------------\n";
 }
 
 int main()
@@ -341,7 +330,8 @@ int main()
 
 			else if (people2 == 4)
 			{
-
+				cout << "以下是今日菜品信息\n";
+				Information(foodnumber);
 			}
 
 			else if (people2 == 5)
