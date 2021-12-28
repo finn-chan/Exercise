@@ -98,7 +98,7 @@ int Receipt(char tempfood[][16], int j, int* ordernumber, int* tablenumber, int*
 
 	for (int i = 0; i < j; i++)
 	{
-		cout << "|    " << FoodName[tempfood[0][i] - 'A'] << "       " << tempfood[1][i] << "        " << setw(4) << Amount(tempfood[0][i], tempfood[1][i]) << "     |\n";
+		cout << "|    " << FoodName[tempfood[0][i] - 'A'] << "      " <<setw(2)<< tempfood[1][i] << "        " << setw(4) << Amount(tempfood[0][i], tempfood[1][i]) << "     |\n";
 		sumamount += Amount(tempfood[0][i], tempfood[1][i]);
 	}
 
@@ -153,7 +153,7 @@ void NumberOfRecords(char chfood, int* foodnumber)
 }
 
 //今日菜品信息
-void Information(int* foodnumber)
+void Information(int* foodnumber, int* totalconsumption)
 {
 	int sumamount = 0;
 	cout << "------------------------------------------------\n";
@@ -162,34 +162,91 @@ void Information(int* foodnumber)
 	cout << "| 菜名                数量（份）  金额（元）   |\n";
 	for (int n = 0; n < 16; n++)
 	{
+		if (n == 3 || n == 5 || n == 7 || n == 9)
+		{
+			cout << "|                                              |\n";
+		}
 		cout << "|    ";
 		cout << FoodName[n] << "      " << setw(2) << foodnumber[n] << "        " << setw(4) << foodnumber[n] * Price[n] << "     |\n";
 		sumamount += foodnumber[n] * Price[n];
 	}
 	cout << "|                                              |\n";
+	cout << "| 餐位费                              " << setw(4) << *totalconsumption - sumamount << "     |\n";
+	cout << "|                                              |\n";
 	cout << "| 总额                                ";
-	cout << setw(4) << sumamount;
+	cout << setw(4) << *totalconsumption;
 	cout << "     |" << endl;
 	cout << "------------------------------------------------\n\n";
+}
+
+//厨师出菜单
+void OutboundDeliveryOrder(int* foodnumber, int* donefood)
+{
+	cout << "以下是今日顾客点菜单\n";
+	while (1)
+	{
+		cout << "--------------------------------------------------------------\n";
+		cout << "|                           菜单                             |\n";
+		cout << "|                                                            |\n";
+		cout << "| 菜品                未做（份）  已做（份）    总共（份）   |\n";
+		for (int i = 0; i < 16; i++)
+		{
+			if (i == 3 || i == 5 || i == 7 || i == 9)
+			{
+				cout << "|                                                            |\n";
+			}
+			cout << "|    " << FoodName[i] << "     "<<setw(2)<<foodnumber[i]-donefood[i]<<"          "<<setw(3)<<donefood[i]<<"           "<<setw(3)<<foodnumber[i]<<"     |\n";
+		}
+		cout << "--------------------------------------------------------------\n\n";
+		char ch;
+		cout << "更改菜品状态请先输入菜品代号，退出请输入 0。\n";
+		cin >> ch;
+		ch = toupper(ch);
+		if (ch >= 'A' && ch <= 'Z')
+		{
+			int num;
+			cout << "请输入改变数量：\n";
+			cin >> num;
+			if (num > foodnumber[ch - 'A'] - donefood[ch - 'A'])
+			{
+				cout << "输入数量超过未做数量！";
+			}
+			else if (num < 0)
+			{
+				cout << "无效操作！\n";
+			}
+			else
+			{
+				donefood[ch - 'A'] += num;
+				cout << "正在更新数据\n......\n......\n......\n已更新数据。\n";
+			}
+		}
+		else if(ch== '0')
+		{
+			break;
+		}
+	}
 }
 
 int main()
 {
 	int people1 = 1, people2;
 	int i, j;		//i 记录每次顾客点菜的数量,j 记录菜品的数量
-	int foodnumber[16];	//顾客点菜的菜品总数
+	int foodnumber[16];		//顾客点菜的菜品总数
+	int donefood[16];		//定义已完成的餐品数
 	for (int n = 0; n < 16; n++)
 	{
 		foodnumber[n] = 0;
+		donefood[n] = 0;
 	}
 	char tempfood[2][16];		//顾客点菜时的零时数组，记录菜品以及数量，a[1][x] 为每个菜品的数量
 	int ordernumber = 1, tablenumber = 1;		//定义订单号和餐桌号
-	int totalconsumption = 0;
+	int totalconsumption = 0;		//定义今日流水
 	int peoplenumber;		//定义单次用餐人数
 
 	while (1)
 	{
-		cout << "请问您是？\n顾客点餐请输入 1，工作人员请输入 2，退出请输入 0。\n";
+		cout << "您是？\n顾客点餐请输入 1，工作人员请输入 2，退出请输入 0。\n";
 		cin >> people1;
 		if (people1 == 1)
 		{
@@ -314,6 +371,8 @@ int main()
 
 			//支付金额
 			Pay(money);
+			system("pause");
+			system("cls");
 		}
 
 		else if (people1 == 2)
@@ -323,16 +382,22 @@ int main()
 			if (people2 == 1)		//收银员
 			{
 
+				system("pause");
+				system("cls");
 			}
 
 			else if (people2 == 2)		//厨师
 			{
-
+				OutboundDeliveryOrder(foodnumber, donefood);
+				system("pause");
+				system("cls");
 			}
 
 			else if (people2 == 3)		//服务员
 			{
 
+				system("pause");
+				system("cls");
 			}
 
 			else if (people2 == 4)		//餐厅老板
@@ -350,7 +415,7 @@ int main()
 					else if (ch == '2')
 					{
 						cout << "以下是今日菜品信息\n";
-						Information(foodnumber);
+						Information(foodnumber, &totalconsumption);
 						cout << "继续查询请输入 1，退出请输入 0。\n";		//考虑使用者输入其他字符
 						cin >> ch;
 						if (ch == '0')
@@ -367,12 +432,14 @@ int main()
 						cout << "对不起请重新输入\n";
 					}
 				}
-
+				system("cls");
 			}
 
 			else if (people2 == 5)		//系统管理员
 			{
 
+				system("pause");
+				system("cls");
 			}
 
 			else
