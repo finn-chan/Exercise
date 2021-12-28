@@ -74,12 +74,12 @@ int Amount(char food, char quantity)
 }
 
 //出示小票
-int Receipt(char tempfood[][16], int j, int* ordernumber, int* tablenumber)
+int Receipt(char tempfood[][16], int j, int* ordernumber, int* tablenumber, int* peoplenumber)
 {
 	int sumamount = 0;
 	cout << "------------------------------------------------\n";
 	cout << "|                   小票                       |\n";
-	
+
 	cout << "| 订单号：                    ";
 	DispalyOrderNumber(&*ordernumber);
 	cout << "     |\n";
@@ -95,16 +95,18 @@ int Receipt(char tempfood[][16], int j, int* ordernumber, int* tablenumber)
 
 	cout << "|                                              |\n";
 	cout << "| 菜名                数量（份）  金额（元）   |\n";
+
 	for (int i = 0; i < j; i++)
 	{
-		cout << "|    ";
-		cout << FoodName[tempfood[0][i] - 'A'];
-		cout << "       ";
-		cout << tempfood[1][i];
-		cout << "        ";
-		cout << setw(4) << Amount(tempfood[0][i], tempfood[1][i]);
+		cout << "|    " << FoodName[tempfood[0][i] - 'A'] << "       " << tempfood[1][i] << "        " << setw(4) << Amount(tempfood[0][i], tempfood[1][i]) << "     |\n";
 		sumamount += Amount(tempfood[0][i], tempfood[1][i]);
-		cout << "     |" << endl;
+	}
+
+	if (sumamount < 500)
+	{
+		cout << "|                                              |\n";
+		cout << "| 餐位费                    " << setw(2) << *peoplenumber << "         " << setw(3) << *peoplenumber * 10 << "     |\n";
+		sumamount += (*peoplenumber * 10);
 	}
 	cout << "|                                              |\n";
 	cout << "| 总额                                ";
@@ -161,14 +163,14 @@ void Information(int* foodnumber)
 	for (int n = 0; n < 16; n++)
 	{
 		cout << "|    ";
-		cout << FoodName[n] << "      " << setw(2) << foodnumber[n] << "        "<<setw(4)<<foodnumber[n]*Price[n]<<"     |\n";
+		cout << FoodName[n] << "      " << setw(2) << foodnumber[n] << "        " << setw(4) << foodnumber[n] * Price[n] << "     |\n";
 		sumamount += foodnumber[n] * Price[n];
 	}
 	cout << "|                                              |\n";
 	cout << "| 总额                                ";
 	cout << setw(4) << sumamount;
 	cout << "     |" << endl;
-	cout << "------------------------------------------------\n";
+	cout << "------------------------------------------------\n\n";
 }
 
 int main()
@@ -183,6 +185,7 @@ int main()
 	char tempfood[2][16];		//顾客点菜时的零时数组，记录菜品以及数量，a[1][x] 为每个菜品的数量
 	int ordernumber = 1, tablenumber = 1;		//定义订单号和餐桌号
 	int totalconsumption = 0;
+	int peoplenumber;		//定义单次用餐人数
 
 	while (1)
 	{
@@ -197,6 +200,10 @@ int main()
 			{
 				tempfood[1][n] = '0';
 			}
+
+			cout << "请问一共是几位？\n";
+			cin >> peoplenumber;
+			cout << "好的\n";
 
 			//顾客点菜
 			while (1)		//顾客加菜再次循环
@@ -302,7 +309,7 @@ int main()
 			//出示小票
 			cout << "这是您的小票，请看：\n\n";
 			int money;
-			money = Receipt(tempfood, j, &ordernumber, &tablenumber);
+			money = Receipt(tempfood, j, &ordernumber, &tablenumber, &peoplenumber);
 			totalconsumption += money;
 
 			//支付金额
@@ -313,32 +320,57 @@ int main()
 		{
 			cout << "您是？\n收银员请输入 1，厨师请输入 2，服务员请输入 3，餐厅老板请输入 4，系统管理员请输入 5，退出请输入 0。\n";
 			cin >> people2;
-			if (people2 == 1)
+			if (people2 == 1)		//收银员
 			{
 
 			}
 
-			else if (people2 == 2)
+			else if (people2 == 2)		//厨师
 			{
 
 			}
 
-			else if (people2 == 3)
+			else if (people2 == 3)		//服务员
 			{
 
 			}
 
-			else if (people2 == 4)
+			else if (people2 == 4)		//餐厅老板
 			{
+				char ch;
+				cout << "请问选择您要查询的信息：\n";
 				while (1)
 				{
-					//cout<<""
+					cout << "顾客小票请输入 1，今日菜品信息请输入 2，退出请输入 0。\n";
+					cin >> ch;
+					if (ch == '1')
+					{
+
+					}
+					else if (ch == '2')
+					{
+						cout << "以下是今日菜品信息\n";
+						Information(foodnumber);
+						cout << "继续查询请输入 1，退出请输入 0。\n";		//考虑使用者输入其他字符
+						cin >> ch;
+						if (ch == '0')
+						{
+							break;
+						}
+					}
+					else if (ch == '0')
+					{
+						break;
+					}
+					else
+					{
+						cout << "对不起请重新输入\n";
+					}
 				}
-				cout << "以下是今日菜品信息\n";
-				Information(foodnumber);
+
 			}
 
-			else if (people2 == 5)
+			else if (people2 == 5)		//系统管理员
 			{
 
 			}
