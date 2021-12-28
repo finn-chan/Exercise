@@ -330,6 +330,10 @@ int main()
 
 			else if (people2 == 4)
 			{
+				while (1)
+				{
+					//cout<<""
+				}
 				cout << "以下是今日菜品信息\n";
 				Information(foodnumber);
 			}
