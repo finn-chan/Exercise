@@ -3,6 +3,8 @@
 #include<iostream>
 #include <stdio.h>
 #include<iomanip>
+#include<fstream>
+
 using namespace std;
 
 //定义菜单以及价格
@@ -20,7 +22,13 @@ void DispalyOrderNumber(int* ordernumber);
 int Amount(char food, char quantity);
 
 //出示小票
-int Receipt(char tempfood[][16], int j, int* ordernumber, int* tablenumber, int* peoplenumber);
+int ShowReceipt(char tempfood[][16], int j, int* ordernumber, int* tablenumber, int* peoplenumber);
+
+//记录小票
+void RecordReceipt(char tempfood[][16], int j, int ordernumber, int tablenumber, int peoplenumber);
+
+//读取小票
+void ReadReceipt(int n);
 
 //支付金额
 void Pay(int money);
@@ -42,7 +50,7 @@ void OutboundDeliveryOrderForCashier(int* foodnumber, int* donefood);
 
 int main()
 {
-	int people1 = 1, people2;
+	char people1, people2;
 	int i, j;		//i 记录每次顾客点菜的数量,j 记录菜品的数量
 	int foodnumber[16];		//顾客点菜的菜品总数
 	int donefood[16];		//定义已完成的餐品数
@@ -52,7 +60,7 @@ int main()
 		donefood[n] = 0;
 	}
 	char tempfood[2][16];		//顾客点菜时的零时数组，记录菜品以及数量，a[1][x] 为每个菜品的数量
-	int ordernumber = 1, tablenumber = 1;		//定义订单号和餐桌号
+	int ordernumber = 0, tablenumber = 0;		//定义订单号和餐桌号
 	int totalconsumption = 0;		//定义今日流水
 	int peoplenumber;		//定义单次用餐人数
 
@@ -60,7 +68,7 @@ int main()
 	{
 		cout << "您是？\n顾客点餐请输入 1，工作人员请输入 2，退出请输入 0。\n";
 		cin >> people1;
-		if (people1 == 1)
+		if (people1 == '1')	//顾客
 		{
 			//重置各项数据
 			i = 0;
@@ -68,6 +76,12 @@ int main()
 			for (int n = 0; n < 16; n++)
 			{
 				tempfood[1][n] = '0';
+			}
+			ordernumber++;
+			tablenumber++;
+			if (tablenumber == 21)
+			{
+				tablenumber = 1;
 			}
 
 			cout << "请问一共是几位？\n";
@@ -178,7 +192,7 @@ int main()
 			//出示小票
 			cout << "这是您的小票，请看：\n\n";
 			int money;
-			money = Receipt(tempfood, j, &ordernumber, &tablenumber, &peoplenumber);
+			money = ShowReceipt(tempfood, j, &ordernumber, &tablenumber, &peoplenumber);
 			totalconsumption += money;
 
 			//支付金额
@@ -187,12 +201,12 @@ int main()
 			system("cls");
 		}
 
-		else if (people1 == 2)
+		else if (people1 == '2')
 		{
 			cout << "您是？\n收银员请输入 1，厨师请输入 2，服务员请输入 3，餐厅老板请输入 4，系统管理员请输入 5，退出请输入 0。\n";
 			cin >> people2;
 
-			if (people2 == 1)		//收银员
+			if (people2 == '1')		//收银员
 			{
 				char ch;
 				while (1)
@@ -201,7 +215,7 @@ int main()
 					cin >> ch;
 					if (ch == '1')
 					{
-						cout << "今日顾客点餐总金额为：" << setw(4) << totalconsumption <<" 元。" << endl;
+						cout << "今日顾客点餐总金额为：" << setw(4) << totalconsumption << " 元。" << endl;
 					}
 					else if (ch == '2')
 					{
@@ -220,21 +234,21 @@ int main()
 				system("cls");
 			}
 
-			else if (people2 == 2)		//厨师
+			else if (people2 == '2')		//厨师
 			{
 				Serving(foodnumber, donefood);
 				system("pause");
 				system("cls");
 			}
 
-			else if (people2 == 3)		//服务员
+			else if (people2 == '3')		//服务员
 			{
 
 				system("pause");
 				system("cls");
 			}
 
-			else if (people2 == 4)		//餐厅老板
+			else if (people2 == '4')		//餐厅老板
 			{
 				char ch;
 				cout << "请问选择您要查询的信息：\n";
@@ -244,7 +258,17 @@ int main()
 					cin >> ch;
 					if (ch == '1')
 					{
-
+						if (tablenumber == 0)
+						{
+							cout << "没有顾客小票信息！\n";
+						}
+						else
+						{
+							int n;
+							cout << "请输入要查询的顾客小票编号（1 ~ " << tablenumber << " )\n";
+							cin >> n;
+							ReadReceipt(n);
+						}
 					}
 					else if (ch == '2')
 					{
@@ -269,20 +293,20 @@ int main()
 				system("cls");
 			}
 
-			else if (people2 == 5)		//系统管理员
+			else if (people2 == '5')		//系统管理员
 			{
 
 				system("pause");
 				system("cls");
 			}
 
-			else
+			else if (people2 == '0')
 			{
 				break;
 			}
 		}
 
-		else
+		else if (people1 == '0')
 		{
 			break;
 		}
@@ -337,7 +361,6 @@ void DispalyOrderNumber(int* ordernumber)
 		t->tm_mon + 1,
 		t->tm_mday,
 		*ordernumber);
-	(*ordernumber)++;
 }
 
 //显示小票上每道菜的金额
@@ -354,7 +377,7 @@ int Amount(char food, char quantity)
 }
 
 //出示小票
-int Receipt(char tempfood[][16], int j, int* ordernumber, int* tablenumber, int* peoplenumber)
+int ShowReceipt(char tempfood[][16], int j, int* ordernumber, int* tablenumber, int* peoplenumber)
 {
 	int sumamount = 0;
 	cout << "------------------------------------------------\n";
@@ -366,11 +389,6 @@ int Receipt(char tempfood[][16], int j, int* ordernumber, int* tablenumber, int*
 
 	cout << "| 餐桌号：                            ";
 	printf("%04d", *tablenumber);
-	(*tablenumber)++;
-	if (*tablenumber == 21)
-	{
-		*tablenumber = 1;
-	}
 	cout << "     |\n";
 
 	cout << "|                                              |\n";
@@ -393,8 +411,60 @@ int Receipt(char tempfood[][16], int j, int* ordernumber, int* tablenumber, int*
 	cout << setw(4) << sumamount;
 	cout << "     |" << endl;
 	cout << "------------------------------------------------\n\n";
+	RecordReceipt(tempfood, j, *ordernumber, *tablenumber, *peoplenumber);
 	cout << "本次消费 " << sumamount << " 元，请输入金额以支付\n";
 	return sumamount;
+}
+
+//记录小票
+void RecordReceipt(char tempfood[][16], int j, int ordernumber, int tablenumber, int peoplenumber)
+{
+	string str;
+	str = ordernumber + 48;
+	int sumamount = 0;
+	ofstream ofs(str + ".txt");
+
+	ofs << "------------------------------------------------\n";
+	ofs << "|                   小票                       |\n";
+
+	ofs << "| 订单号：                    " << "20220109000" << ordernumber << "     |\n";
+	ofs << "| 餐桌号：                            " << "000" << tablenumber << "     |\n";
+
+	ofs << "|                                              |\n";
+	ofs << "| 菜名                数量（份）  金额（元）   |\n";
+
+	for (int i = 0; i < j; i++)
+	{
+		ofs << "|    " << FoodName[tempfood[0][i] - 'A'] << "      " << setw(2) << tempfood[1][i] << "        " << setw(4) << Amount(tempfood[0][i], tempfood[1][i]) << "     |\n";
+		sumamount += Amount(tempfood[0][i], tempfood[1][i]);
+	}
+
+	if (sumamount < 500)
+	{
+		ofs << "|                                              |\n";
+		ofs << "| 餐位费                    " << setw(2) << peoplenumber << "         " << setw(3) << peoplenumber * 10 << "     |\n";		//餐位费每人 10 元
+		sumamount += (peoplenumber * 10);
+	}
+	ofs << "|                                              |\n";
+	ofs << "| 总额                                ";
+	ofs << setw(4) << sumamount;
+	ofs << "     |" << endl;
+	ofs << "------------------------------------------------\n\n";
+	ofs.close();
+}
+
+//读取小票
+void ReadReceipt(int n)
+{
+	string str;
+	char buf[1000];
+	str = n + 48;
+	ifstream ifs(str + ".txt");
+	while (ifs.getline(buf, sizeof(buf)))
+	{
+		cout << buf << endl;
+	}
+	ifs.close();
 }
 
 //支付金额
