@@ -16,6 +16,7 @@
 #include"RecordReceipt.h"
 #include"Serving.h"
 #include"ShowReceipt.h"
+#include"Waiter.h"
 
 using namespace std;
 
@@ -72,8 +73,8 @@ int main()
 
 			else if (people2 == '3')		//服务员
 			{
+				Waiter(&tablenumber);
 
-				system("pause");
 				system("cls");
 			}
 

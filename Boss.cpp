@@ -4,9 +4,9 @@
 void Boss(int* tablenumber, int* totalconsumption, int* foodnumber, string* FoodName, int* Price)
 {
 	char ch;
-	cout << "请问选择您要查询的信息：\n";
 	while (1)
 	{
+		cout << "请问选择您要查询的信息：\n";
 		cout << "顾客小票请输入 1，今日菜品信息请输入 2，退出请输入 0。\n";
 		cin >> ch;
 		if (ch == '1')
@@ -20,7 +20,14 @@ void Boss(int* tablenumber, int* totalconsumption, int* foodnumber, string* Food
 				int n;
 				cout << "请输入要查询的顾客小票编号（1 ~ " << *tablenumber << " )\n";
 				cin >> n;
-				ReadReceipt(n);
+				if (n >= 1 && n <= *tablenumber)
+				{
+					ReadReceipt(n);
+				}
+				else
+				{
+					cout << "输入错误！\n";
+				}
 			}
 		}
 		else if (ch == '2')

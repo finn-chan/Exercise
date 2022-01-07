@@ -154,6 +154,7 @@
     <ClCompile Include="RecordReceipt.cpp" />
     <ClCompile Include="Serving.cpp" />
     <ClCompile Include="ShowReceipt.cpp" />
+    <ClCompile Include="Waiter.cpp" />
     <ClCompile Include="源.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -172,6 +173,7 @@
     <ClInclude Include="RecordReceipt.h" />
     <ClInclude Include="Serving.h" />
     <ClInclude Include="ShowReceipt.h" />
+    <ClInclude Include="Waiter.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

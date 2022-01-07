@@ -63,6 +63,9 @@
     <ClCompile Include="Boss.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="Waiter.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Menu.h">
@@ -108,6 +111,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Boss.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Waiter.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
