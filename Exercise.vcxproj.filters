@@ -18,5 +18,97 @@
     <ClCompile Include="源.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="Menu.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="DispalyOrderNumber.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ShowReceipt.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Amount.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="RecordReceipt.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ReadReceipt.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Pay.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="NumberOfRecords.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Information.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="OutboundDeliveryOrderForChef.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Serving.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="OutboundDeliveryOrderForCashier.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Customer.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Cashier.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Boss.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Menu.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DispalyOrderNumber.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ShowReceipt.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Amount.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="RecordReceipt.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ReadReceipt.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Pay.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="NumberOfRecords.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Information.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="OutboundDeliveryOrderForChef.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Serving.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="OutboundDeliveryOrderForCashier.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Customer.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Cashier.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Boss.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

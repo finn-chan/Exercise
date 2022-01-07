@@ -139,7 +139,39 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Amount.cpp" />
+    <ClCompile Include="Boss.cpp" />
+    <ClCompile Include="Cashier.cpp" />
+    <ClCompile Include="Customer.cpp" />
+    <ClCompile Include="DispalyOrderNumber.cpp" />
+    <ClCompile Include="Information.cpp" />
+    <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="NumberOfRecords.cpp" />
+    <ClCompile Include="OutboundDeliveryOrderForCashier.cpp" />
+    <ClCompile Include="OutboundDeliveryOrderForChef.cpp" />
+    <ClCompile Include="Pay.cpp" />
+    <ClCompile Include="ReadReceipt.cpp" />
+    <ClCompile Include="RecordReceipt.cpp" />
+    <ClCompile Include="Serving.cpp" />
+    <ClCompile Include="ShowReceipt.cpp" />
     <ClCompile Include="源.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Amount.h" />
+    <ClInclude Include="Boss.h" />
+    <ClInclude Include="Cashier.h" />
+    <ClInclude Include="Customer.h" />
+    <ClInclude Include="DispalyOrderNumber.h" />
+    <ClInclude Include="Information.h" />
+    <ClInclude Include="Menu.h" />
+    <ClInclude Include="NumberOfRecords.h" />
+    <ClInclude Include="OutboundDeliveryOrderForCashier.h" />
+    <ClInclude Include="OutboundDeliveryOrderForChef.h" />
+    <ClInclude Include="Pay.h" />
+    <ClInclude Include="ReadReceipt.h" />
+    <ClInclude Include="RecordReceipt.h" />
+    <ClInclude Include="Serving.h" />
+    <ClInclude Include="ShowReceipt.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
